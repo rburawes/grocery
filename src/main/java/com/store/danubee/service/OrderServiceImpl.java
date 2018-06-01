@@ -46,6 +46,10 @@ public class OrderServiceImpl implements OrderService {
             return;
         }
 
+        if (qty <= 0) {
+            return;
+        }
+
         OrderItem item = checkOrder(product, qty, promotions);
 
         if (order.getItems().containsKey(item)) {
@@ -78,13 +82,16 @@ public class OrderServiceImpl implements OrderService {
                     discount = price * (p.getDiscount() / 100);
                     totalPrice = price - discount;
                 } else if (p.getType().equals(PromoType.FREE_ITEM)) {
-                    if (qty <= p.getFreeItemQty()) {
-                        price = 0;
-                    } else {
-                        price = (qty - p.getFreeItemQty()) * product.getPrice();
+                    if (qty == p.getFreeItemQty()){
+                        price = qty * product.getPrice();
+                        discount = 0;
+                        totalPrice = price;
+                    }else {
+                        int qtyToPay = (int) Math.round(qty * (1/(double)(1+p.getFreeItemQty())));
+                        price = qty * product.getPrice();
+                        discount = (qty - qtyToPay) * product.getPrice();
+                        totalPrice = qtyToPay * product.getPrice();
                     }
-                    discount = p.getFreeItemQty() * product.getPrice();
-                    totalPrice = price;
                 }
             } else {
                 price = product.getPrice();

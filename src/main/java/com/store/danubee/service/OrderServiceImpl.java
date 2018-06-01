@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
                         discount = 0;
                         totalPrice = price;
                     }else {
-                        int qtyToPay = (int) Math.round(qty * (1/(double)(1+p.getFreeItemQty())));
+                        int qtyToPay = (int) Math.round(qty * (1/(double)(1+p.getFreeItemQty()))); //Can handle buy 1 take 2 or take 3, not tested yet though.
                         price = qty * product.getPrice();
                         discount = (qty - qtyToPay) * product.getPrice();
                         totalPrice = qtyToPay * product.getPrice();

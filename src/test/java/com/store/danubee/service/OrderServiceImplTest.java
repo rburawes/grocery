@@ -91,8 +91,8 @@ public class OrderServiceImplTest {
         // Test order #2
         Order order2 = new Order(1l, "TEST_ORDER02", "This is a test order number 2", new Date(), new HashMap<OrderItem, Integer>(), 0);
         for (Product product : products2) {
-            //int rndQty = rand.nextInt((5 - 1) + 1) + 1;
-            service.processOrder(order2, product, 4, promotions2);
+            int rndQty = rand.nextInt((5 - 1) + 1) + 1;
+            service.processOrder(order2, product, rndQty, promotions2);
         }
 
         System.out.println(service.printReceipt(order2));
